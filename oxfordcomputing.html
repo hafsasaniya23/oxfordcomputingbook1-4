@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxford Computing Programme for Kids — Books 1–4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Manrope', sans-serif; }
+        body { background: #F4F4F5; }
+
+        .glass-card {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);
+            transition: all 300ms cubic-bezier(0.2,0.8,0.2,1);
+        }
+        .glass-card:hover {
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.12), 0 0 0 1px rgba(100,144,110,0.2);
+            transform: translateY(-4px);
+        }
+
+        .book-number {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 24px; color: white;
+        }
+
+        .topic-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 12px;
+            font-size: 13px; font-weight: 500;
+            background: #F4F4F5; color: #171717;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: all 200ms;
+        }
+        .topic-pill:hover {
+            background: #0f172a; color: #fff;
+            border-color: #0f172a;
+        }
+
+        .grade-badge {
+            font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            padding: 4px 10px; border-radius: 8px;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #64906E 0%, #243629 100%);
+        }
+
+        .fade-up {
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 0.8s cubic-bezier(0.2,0.8,0.2,1) forwards;
+        }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .delay-1 { animation-delay: 100ms; }
+        .delay-2 { animation-delay: 200ms; }
+        .delay-3 { animation-delay: 300ms; }
+        .delay-4 { animation-delay: 400ms; }
+        .delay-5 { animation-delay: 500ms; }
+
+        .book-color-1 { background: linear-gradient(135deg, #64906E, #4a6e50); }
+        .book-color-2 { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .book-color-3 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .book-color-4 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .badge-1 { background: rgba(100,144,110,0.12); color: #4a6e50; }
+        .badge-2 { background: rgba(59,130,246,0.12); color: #2563eb; }
+        .badge-3 { background: rgba(245,158,11,0.12); color: #d97706; }
+        .badge-4 { background: rgba(139,92,246,0.12); color: #7c3aed; }
+
+        .noisy-bg::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0;
+        }
+
+        .chapter-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            flex-shrink: 0; margin-top: 7px;
+        }
+
+        .progress-bar {
+            height: 4px; border-radius: 4px; background: #e5e5e5; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; border-radius: 4px;
+            transition: width 1.2s cubic-bezier(0.2,0.8,0.2,1);
+        }
+
+        @media (max-width: 768px) {
+            .books-grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body class="noisy-bg min-h-screen">
+
+    <!-- Bokeh Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute w-96 h-96 rounded-full" style="background:rgba(134,239,172,0.2); filter:blur(100px); top:-10%; left:-5%;"></div>
+        <div class="absolute w-80 h-80 rounded-full" style="background:rgba(253,224,71,0.12); filter:blur(80px); bottom:10%; right:-5%;"></div>
+        <div class="absolute w-64 h-64 rounded-full" style="background:rgba(134,239,172,0.15); filter:blur(60px); top:50%; left:40%;"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
+
+        <!-- Header -->
+        <header class="fade-up mb-4">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl hero-gradient flex items-center justify-center">
+                    <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-xs font-bold tracking-widest uppercase text-neutral-500">Curriculum Overview</span>
+            </div>
+        </header>
+
+        <!-- Hero Title -->
+        <div class="fade-up delay-1 mb-4">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-medium tracking-tighter leading-[0.95] text-[#171717]">
+                Oxford Computing<br>
+                <span style="background: linear-gradient(135deg, #243629 0%, #64906E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Programme for Kids</span>
+            </h1>
+        </div>
+
+        <div class="fade-up delay-2 flex flex-wrap items-center gap-4 mb-12">
+            <p class="text-lg text-neutral-500 max-w-xl" style="line-height:1.625;">
+                Books 1–4 at a glance — core digital literacy, productivity tools, and computational thinking. <span class="font-semibold text-neutral-700">Scratch programming topics excluded.</span>
+            </p>
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100">
+                <i data-lucide="x-circle" class="w-4 h-4 text-red-400"></i>
+                <span class="text-xs font-semibold text-red-500">Scratch Removed</span>
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="fade-up delay-3 grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <div class="text-2xl font-bold text-[#171717]">4</div>
+                <div class="text-xs font-medium text-neutral-500 tracking-wide uppercase mt-1">Books</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <div class="text-2xl font-bold text-[#171717]">~40</div>
+                <div class="text-xs font-medium text-neutral-500 tracking-wide uppercase mt-1">Topics</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <div class="text-2xl font-bold text-[#171717]">Gr 1–5</div>
+                <div class="text-xs font-medium text-neutral-500 tracking-wide uppercase mt-1">Age Range</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <div class="text-2xl font-bold text-[#171717]">0</div>
+                <div class="text-xs font-medium text-neutral-500 tracking-wide uppercase mt-1">Scratch Chapters</div>
+            </div>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="books-grid grid grid-cols-1 md:grid-cols-2 gap-6" style="grid-template-columns: repeat(2, 1fr);">
+
+            <!-- BOOK 1 -->
+            <div class="fade-up delay-2 glass-card rounded-2xl p-7 md:p-8 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
+                    <div class="flex items-center gap-4">
+                        <div class="book-number book-color-1">1</div>
+                        <div>
+                            <h2 class="text-xl font-semibold tracking-tight text-[#171717]">Book 1</h2>
+                            <span class="grade-badge badge-1 mt-1 inline-block">Grade 1–2 · Ages 5–7</span>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center">
+                        <i data-lucide="monitor" class="w-5 h-5 text-neutral-400"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-neutral-500 mb-5" style="line-height:1.625;">Foundation level — introduces young learners to the computer world, basic hardware, and simple digital tasks.</p>
+
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="topic-pill"><i data-lucide="cpu" class="w-3.5 h-3.5"></i>Parts of a Computer</span>
+                    <span class="topic-pill"><i data-lucide="mouse-pointer" class="w-3.5 h-3.5"></i>Input & Output Devices</span>
+                    <span class="topic-pill"><i data-lucide="power" class="w-3.5 h-3.5"></i>Starting & Shutting Down</span>
+                    <span class="topic-pill"><i data-lucide="keyboard" class="w-3.5 h-3.5"></i>Keyboard Basics</span>
+                    <span class="topic-pill"><i data-lucide="mouse" class="w-3.5 h-3.5"></i>Mouse Skills</span>
+                    <span class="topic-pill"><i data-lucide="paintbrush" class="w-3.5 h-3.5"></i>Paint / Drawing</span>
+                    <span class="topic-pill"><i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>Desktop & Icons</span>
+                    <span class="topic-pill"><i data-lucide="type" class="w-3.5 h-3.5"></i>Typing Practice</span>
+                    <span class="topic-pill"><i data-lucide="globe" class="w-3.5 h-3.5"></i>Introduction to Internet</span>
+                    <span class="topic-pill"><i data-lucide="folder" class="w-3.5 h-3.5"></i>Files & Folders Basics</span>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-neutral-100">
+                    <div class="flex justify-between text-xs text-neutral-400 mb-2">
+                        <span>Difficulty</span>
+                        <span class="font-semibold text-green-600">Beginner</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill bg-gradient-to-r from-[#64906E] to-[#4a6e50]" style="width:25%"></div></div>
+                </div>
+            </div>
+
+            <!-- BOOK 2 -->
+            <div class="fade-up delay-3 glass-card rounded-2xl p-7 md:p-8 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
+                    <div class="flex items-center gap-4">
+                        <div class="book-number book-color-2">2</div>
+                        <div>
+                            <h2 class="text-xl font-semibold tracking-tight text-[#171717]">Book 2</h2>
+                            <span class="grade-badge badge-2 mt-1 inline-block">Grade 2–3 · Ages 7–8</span>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-5 h-5 text-neutral-400"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-neutral-500 mb-5" style="line-height:1.625;">Building confidence — moves into operating system tasks, word processing, and early digital citizenship.</p>
+
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="topic-pill"><i data-lucide="hard-drive" class="w-3.5 h-3.5"></i>Computer Hardware</span>
+                    <span class="topic-pill"><i data-lucide="settings" class="w-3.5 h-3.5"></i>Operating System</span>
+                    <span class="topic-pill"><i data-lucide="file-text" class="w-3.5 h-3.5"></i>Word Processing (MS Word)</span>
+                    <span class="topic-pill"><i data-lucide="type" class="w-3.5 h-3.5"></i>Formatting Text</span>
+                    <span class="topic-pill"><i data-lucide="image" class="w-3.5 h-3.5"></i>Inserting Pictures</span>
+                    <span class="topic-pill"><i data-lucide="save" class="w-3.5 h-3.5"></i>Saving & Opening Files</span>
+                    <span class="topic-pill"><i data-lucide="printer" class="w-3.5 h-3.5"></i>Printing Basics</span>
+                    <span class="topic-pill"><i data-lucide="mail" class="w-3.5 h-3.5"></i>Introduction to Email</span>
+                    <span class="topic-pill"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i>Digital Safety Basics</span>
+                    <span class="topic-pill"><i data-lucide="search" class="w-3.5 h-3.5"></i>Searching the Web</span>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-neutral-100">
+                    <div class="flex justify-between text-xs text-neutral-400 mb-2">
+                        <span>Difficulty</span>
+                        <span class="font-semibold text-blue-600">Elementary</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill bg-gradient-to-r from-blue-400 to-blue-600" style="width:45%"></div></div>
+                </div>
+            </div>
+
+            <!-- BOOK 3 -->
+            <div class="fade-up delay-4 glass-card rounded-2xl p-7 md:p-8 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
+                    <div class="flex items-center gap-4">
+                        <div class="book-number book-color-3">3</div>
+                        <div>
+                            <h2 class="text-xl font-semibold tracking-tight text-[#171717]">Book 3</h2>
+                            <span class="grade-badge badge-3 mt-1 inline-block">Grade 3–4 · Ages 8–10</span>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center">
+                        <i data-lucide="presentation" class="w-5 h-5 text-neutral-400"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-neutral-500 mb-5" style="line-height:1.625;">Expanding skills — introduces spreadsheets, presentations, and deeper understanding of technology.</p>
+
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="topic-pill"><i data-lucide="file-text" class="w-3.5 h-3.5"></i>Advanced Word Processing</span>
+                    <span class="topic-pill"><i data-lucide="table" class="w-3.5 h-3.5"></i>Tables in Documents</span>
+                    <span class="topic-pill"><i data-lucide="grid-3x3" class="w-3.5 h-3.5"></i>Spreadsheets (MS Excel)</span>
+                    <span class="topic-pill"><i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>Charts & Graphs</span>
+                    <span class="topic-pill"><i data-lucide="calculator" class="w-3.5 h-3.5"></i>Simple Formulas</span>
+                    <span class="topic-pill"><i data-lucide="presentation" class="w-3.5 h-3.5"></i>Presentations (MS PowerPoint)</span>
+                    <span class="topic-pill"><i data-lucide="layers" class="w-3.5 h-3.5"></i>Slides & Transitions</span>
+                    <span class="topic-pill"><i data-lucide="wifi" class="w-3.5 h-3.5"></i>Internet & Networks</span>
+                    <span class="topic-pill"><i data-lucide="shield" class="w-3.5 h-3.5"></i>Cyber Safety</span>
+                    <span class="topic-pill"><i data-lucide="brain" class="w-3.5 h-3.5"></i>Computational Thinking</span>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-neutral-100">
+                    <div class="flex justify-between text-xs text-neutral-400 mb-2">
+                        <span>Difficulty</span>
+                        <span class="font-semibold text-amber-600">Intermediate</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill bg-gradient-to-r from-amber-400 to-amber-600" style="width:70%"></div></div>
+                </div>
+            </div>
+
+            <!-- BOOK 4 -->
+            <div class="fade-up delay-5 glass-card rounded-2xl p-7 md:p-8 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
+                    <div class="flex items-center gap-4">
+                        <div class="book-number book-color-4">4</div>
+                        <div>
+                            <h2 class="text-xl font-semibold tracking-tight text-[#171717]">Book 4</h2>
+                            <span class="grade-badge badge-4 mt-1 inline-block">Grade 4–5 · Ages 9–11</span>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center">
+                        <i data-lucide="code" class="w-5 h-5 text-neutral-400"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-neutral-500 mb-5" style="line-height:1.625;">Advanced level — mastering productivity tools, web concepts, and preparing for text-based coding.</p>
+
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="topic-pill"><i data-lucide="file-text" class="w-3.5 h-3.5"></i>Advanced Word (Mail Merge)</span>
+                    <span class="topic-pill"><i data-lucide="table-2" class="w-3.5 h-3.5"></i>Advanced Spreadsheets</span>
+                    <span class="topic-pill"><i data-lucide="function-square" class="w-3.5 h-3.5"></i>Functions (SUM, AVG, etc.)</span>
+                    <span class="topic-pill"><i data-lucide="presentation" class="w-3.5 h-3.5"></i>Advanced Presentations</span>
+                    <span class="topic-pill"><i data-lucide="globe" class="w-3.5 h-3.5"></i>Web Browsing Skills</span>
+                    <span class="topic-pill"><i data-lucide="code" class="w-3.5 h-3.5"></i>Introduction to HTML</span>
+                    <span class="topic-pill"><i data-lucide="database" class="w-3.5 h-3.5"></i>Introduction to Databases</span>
+                    <span class="topic-pill"><i data-lucide="cloud" class="w-3.5 h-3.5"></i>Cloud Computing Basics</span>
+                    <span class="topic-pill"><i data-lucide="lock" class="w-3.5 h-3.5"></i>Digital Ethics & Privacy</span>
+                    <span class="topic-pill"><i data-lucide="cpu" class="w-3.5 h-3.5"></i>How Computers Work</span>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-neutral-100">
+                    <div class="flex justify-between text-xs text-neutral-400 mb-2">
+                        <span>Difficulty</span>
+                        <span class="font-semibold text-purple-600">Advanced</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill bg-gradient-to-r from-purple-400 to-purple-600" style="width:95%"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Path -->
+        <div class="fade-up delay-5 mt-12 glass-card rounded-2xl p-7 md:p-10">
+            <div class="flex items-center gap-3 mb-6">
+                <i data-lucide="route" class="w-5 h-5 text-[#64906E]"></i>
+                <h3 class="text-lg font-semibold tracking-tight text-[#171717]">Learning Progression Path</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="relative">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="chapter-dot book-color-1"></div>
+                        <span class="text-sm font-semibold text-[#171717]">Book 1</span>
+                    </div>
+                    <div class="pl-4 border-l-2 border-green-200 space-y-2">
+                        <p class="text-xs text-neutral-500">Computer Basics → Devices → Mouse & Keyboard → Paint → Files</p>
+                    </div>
+                    <div class="hidden md:block absolute top-2 right-0 translate-x-1/2">
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-neutral-300"></i>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="chapter-dot book-color-2"></div>
+                        <span class="text-sm font-semibold text-[#171717]">Book 2</span>
+                    </div>
+                    <div class="pl-4 border-l-2 border-blue-200 space-y-2">
+                        <p class="text-xs text-neutral-500">OS Skills → MS Word → Formatting → Email → Web Search → Safety</p>
+                    </div>
+                    <div class="hidden md:block absolute top-2 right-0 translate-x-1/2">
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-neutral-300"></i>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="chapter-dot book-color-3"></div>
+                        <span class="text-sm font-semibold text-[#171717]">Book 3</span>
+                    </div>
+                    <div class="pl-4 border-l-2 border-amber-200 space-y-2">
+                        <p class="text-xs text-neutral-500">Advanced Word → Excel → Charts → PowerPoint → Networks → Logic</p>
+                    </div>
+                    <div class="hidden md:block absolute top-2 right-0 translate-x-1/2">
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-neutral-300"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="chapter-dot book-color-4"></div>
+                        <span class="text-sm font-semibold text-[#171717]">Book 4</span>
+                    </div>
+                    <div class="pl-4 border-l-2 border-purple-200 space-y-2">
+                        <p class="text-xs text-neutral-500">Advanced Office → HTML → Databases → Cloud → Ethics → Hardware</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="fade-up delay-5 mt-8 text-center">
+            <p class="text-xs text-neutral-400">
+                <i data-lucide="info" class="w-3 h-3 inline-block mr-1 align-text-bottom"></i>
+                All Scratch programming chapters have been removed from this overview. Topics shown reflect the remaining curriculum content.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Animate progress bars on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fills = entry.target.querySelectorAll('.progress-fill');
+                    fills.forEach(fill => {
+                        const width = fill.style.width;
+                        fill.style.width = '0%';
+                        setTimeout(() => { fill.style.width = width; }, 200);
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.glass-card').forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
